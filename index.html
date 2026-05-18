@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Notifications</title>
+
+    <style>
+        body {
+            font-family: Arial;
+        }
+
+        .card {
+            border: 1px solid black;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Notifications</h1>
+
+    <div id="notifications"></div>
+
+    <script>
+
+        fetch("http://4.224.186.213/evaluation-service/notifications", {
+
+            method: "GET",
+
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer YOUR_TOKEN"
+            }
+
+        })
+
+        .then(response => response.json())
+
+        .then(data => {
+
+            let output = "";
+
+            data.notifications.forEach(notification => {
+
+                output += `
+                    <div class="card">
+                        <p><b>ID:</b> ${notification.ID}</p>
+                        <p><b>Type:</b> ${notification.Type}</p>
+                        <p><b>Message:</b> ${notification.Message}</p>
+                        <p><b>Timestamp:</b> ${notification.Timestamp}</p>
+                    </div>
+                `;
+            });
+
+            document.getElementById("notifications").innerHTML = output;
+        })
+
+        .catch(error => {
+            console.log(error);
+        });
+
+    </script>
+
+</body>
+</html>
